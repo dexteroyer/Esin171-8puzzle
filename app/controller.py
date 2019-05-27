@@ -93,7 +93,7 @@ def move_tile(action, data):
 
 
 def print_states(list_final):  # The function is to print the final states on the console.
-    print("printing final solution")
+    print("Printing the final solution")
     acts = []
     for l in list_final:
         if l.act != None:
@@ -149,7 +149,7 @@ def path(node):  # The function is to find the path from the goal node to the st
 
 
 def exploring_nodes(node):
-    print("Exploring Nodes")
+    print("Exploring the nodes")
     actions = ["down", "up", "left", "right"]
     goal_node = np.array([[0, 1, 2], [3, 4, 5], [6, 7, 8]])
     node_q = [node]
@@ -189,7 +189,7 @@ def check_correct_input(l):
             if f == array[j]:
                 counter_appear += 1
         if counter_appear >= 2:
-            print("invalid input, same number was entered 2 times")
+            print("That is an invalid input, the same number was entered 2 times.")
             exit(0)
 
 
@@ -207,7 +207,7 @@ def check_solvable(g):
     if counter_states % 2 == 0:
         print("The puzzle is solvable. It is generating a path.")
     else:
-        print("The puzzle is not solvable, still creating nodes.")
+        print("The puzzle is not solvable. It is still creating nodes.")
 
 
 
