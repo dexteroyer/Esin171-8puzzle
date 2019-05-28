@@ -19,7 +19,7 @@ class Nodes():
     
     # Check if moving down is valid or not.
   def try_move_down(self):
-    # Index of the empty tile
+    # The index of the empty tile
     zero_index=[i[0] for i in np.where(self.state==0)] 
     if zero_index[0] == 0:
       return False
@@ -84,12 +84,12 @@ class Nodes():
     if cost > 0:
       return cost
     else:
-      return 0 # If all the tiles matches.
+      return 0 # If all the tiles matched.
   
   # This part is to return heuristic cost: sum of Manhattan distance to reach the goal state.
   def h_manhattan_cost(self,new_state,goal_state):
     current = new_state
-    # The digit and coordinates they are supposed to be.
+    # The digit and coordinates are supposed to be.
     goal_position_dic = {0:(0,0),1:(0,1),2:(0,2),3:(1,0),4:(1,1),5:(1,2),6:(2,0),7:(2,1),8:(2,2)} 
     sum_manhattan = 0
     for i in range(3):
@@ -98,7 +98,7 @@ class Nodes():
           sum_manhattan += sum(abs(a-b) for a,b in zip((i,j), goal_position_dic[current[i,j]]))
     return sum_manhattan
       
-  # Once the goal node is found, trace back to the root node and print out the path
+  # Trace back to the root node and print out the path if the goal node is found.
   def print_path(self):
     action_list = []
       # Create FILO stacks to place the trace.
@@ -139,8 +139,8 @@ class Nodes():
     start = time.time()
     action_list = []
     queue = [(self,0)] # The queue of (found but unvisited nodes, path cost+heuristic cost), ordered by the second element
-    queue_num_nodes_popped = 0 # The number of nodes popped off the queue, measuring time performance
-    queue_max_length = 1 # The max number of nodes in the queue, measuring space performance
+    queue_num_nodes_popped = 0 # The number of nodes popped off the queue, measuring the time performance
+    queue_max_length = 1 # The maximum number of nodes in the queue, measuring space performance
     
     depth_queue = [(0,0)] # The queue of node depth, (depth, path_cost+heuristic cost)
     path_cost_queue = [(0,0)] # The queue for path cost, (path_cost, path_cost+heuristic cost)
@@ -170,7 +170,7 @@ class Nodes():
         print ('Time performance:',str(queue_num_nodes_popped),'the nodes popped off the queue.')
         print ('Space performance:', str(queue_max_length),'the nodes in the queue at maximum.')
         print ('Time spent: %0.2fs' % (time.time()-start))
-        return x
+        return "{0:.2f}".format((time.time()-start))
     
       else:     
         # Check if moving upper tile down is a valid move or not.
@@ -264,4 +264,5 @@ def astar_solver(data):
   # A*1 search is based on path cost+heuristic cost using the priority queue.
   x = root_node.a_star_search(goal_state, heuristic_function = 'num_misplaced')
 
-  return x[1:]
+  #return x[1:] # return moves
+  return x

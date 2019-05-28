@@ -27,16 +27,7 @@ window.onload = () => {
             $ul.append($li);
         })
 
-        var solvable = checkSolvable();
-
         $target.html($ul);
-    };
-
-    var checkSolvable = function () {
-        var sum = 0;
-        for (var i = 0; i < tiles.length; i++) {
-
-        }
     };
 
     var shiftTile = function (event) {
@@ -107,16 +98,20 @@ function astar(){
             dataType: 'json',
             crossDomain: true,
             success: function(data){
-              alert(data.message);
               var sol = data.message;
-              console.log(sol);
-              new_state(x, sol);
+              alert('Solving time is ' + sol + " seconds")
+                  alert('try again?');
+    console.log('end');
+    location.reload();
             },
             error: function (data) {
               alert(data.message);
+                  alert('try again?');
+    console.log('end');
+    location.reload();
             }
         });
-}
+};
 
 function getind(list){
     var i;
@@ -125,14 +120,15 @@ function getind(list){
             return i
         }
     }
-}
+};
 
 function new_state(x, sol){
     var d;
     for(d=0; d<x.length; d++){ x[d] = parseInt(x[d])}
-    initial = x
+    var initial = x
     var i;
     console.log(sol.length)
+    console.log(x)
     for(i=0; i<sol.length; i++)
     {
         if (sol[i] == 'left')
@@ -143,6 +139,30 @@ function new_state(x, sol){
             initial[z_loc] = parseInt(temp);
             console.log(initial)
             moveit(initial);
+            var tiles = initial
+
+    var renderTiles = function ($newTarget) {
+        $target = $newTarget || $target;
+
+        var $ul = $("<ul>", {
+            "class": "n-puzzle",
+            "id": "navbar"
+        })
+
+        $(tiles).each(function (index) {
+            var correct = index + 1 == this;
+            var cssClass = this == 0 ? "empty" : (correct ? "correct" : "incorrect");
+
+            var $li = $("<li>", {
+                "class": cssClass,
+                "data-tile": this,
+            });
+            $li.text(this);
+            $ul.append($li);
+        })
+    }
+
+            renderTiles($('.eight-puzzle'));
             alert('perform next move')
         }
         else if (sol[i] == 'right')
@@ -176,13 +196,15 @@ function new_state(x, sol){
             alert('perform next move')  
         }
     }
-    console.log('end');
     alert('try again?');
+    console.log('end');
     location.reload();
-}
+};
 
 function moveit(state){
+
     var tiles = state;
+
     var $target = undefined;
 
     var renderTiles = function ($newTarget) {
@@ -202,48 +224,37 @@ function moveit(state){
                 "data-tile": this,
             });
             $li.text(this);
-            // $li.click({index: index}, shiftTile);
+            $li.click({index: index}, shiftTile);
             $ul.append($li);
         })
-
-        var solvable = checkSolvable();
 
         $target.html($ul);
     };
 
-    var checkSolvable = function () {
-        var sum = 0;
-        for (var i = 0; i < tiles.length; i++) {
-
-        }
-    };
-
     var shiftTile = function (event) {
-        var index = event.data.index;
+        // var index = event.data.index;
 
-        var targetIndex = -1;
-        if (index - 1 >= 0 && tiles[index - 1] == 0) { // check left
-            targetIndex = index - 1;
-        } else if (index + 1 < tiles.length && tiles[index + 1] == 0) { // check right
-            targetIndex = index + 1;
-        } else if (index - 3 >= 0 && tiles[index - 3] == 0) { //check up
-            targetIndex = index - 3;
-        } else if (index + 3 < tiles.length && tiles[index + 3] == 0) { // check down
-            targetIndex = index + 3;
-        }
-
-        // if (targetIndex != -1) {
-            var temp = tiles[targetIndex];
-            tiles[targetIndex] = tiles[index];
-            tiles[index] = temp;
-            renderTiles();
+        // var targetIndex = -1;
+        // if (index - 1 >= 0 && tiles[index - 1] == 0) { // check left
+        //     targetIndex = index - 1;
+        // } else if (index + 1 < tiles.length && tiles[index + 1] == 0) { // check right
+        //     targetIndex = index + 1;
+        // } else if (index - 3 >= 0 && tiles[index - 3] == 0) { //check up
+        //     targetIndex = index - 3;
+        // } else if (index + 3 < tiles.length && tiles[index + 3] == 0) { // check down
+        //     targetIndex = index + 3;
         // }
 
+        // if (targetIndex != -1) {
+        //     var temp = tiles[targetIndex];
+        //     tiles[targetIndex] = tiles[index];
+        //     tiles[index] = temp;
+            renderTiles();
+        // }
         event.preventDefault();
     };
    renderTiles($('.eight-puzzle'));
+
 };
-
-
 
 
